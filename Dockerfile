@@ -43,10 +43,6 @@ WORKDIR /root
 
 COPY --from=0 /root/squid*.deb /root/
 
-COPY conf/* /root/
-
-#apt-get install logrotate squid-langpack
-
 RUN set -eux; \
   ( \
   echo "deb http://archive.debian.org/debian wheezy main" > /etc/apt/sources.list; \
@@ -57,13 +53,18 @@ RUN set -eux; \
   && apt-get install -y openssl libltdl7 logrotate squid-langpack \
   && rm squid-cgi_3.1.20-2.2+deb7u4_amd64.deb \
   && dpkg -i ./squid*.deb \
-  && /usr/lib/squid3/ssl_crtd -c -s /var/lib/ssl_db \
-  && mv /root/squid.conf /etc/squid3/squid.conf \
+  && /usr/lib/squid3/ssl_crtd -c -s /var/lib/ssl_db
+
+COPY conf/* /root/
+
+RUN mv /root/squid.conf /etc/squid3/squid.conf \
   && mv /root/squid_myCA.pem /etc/squid3/squid_myCA.pem \
   && mv /root/settings.xml /usr/share/maven/conf/settings.xml \
   && keytool -importcert -noprompt -alias repo.maven.apache.org \
        -keystore ${JAVA_HOME}/jre/lib/security/cacerts \
-       -storepass changeit -file squid_myCA.crt
+       -storepass changeit -file squid_myCA.crt \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 
