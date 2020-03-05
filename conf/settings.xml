@@ -106,7 +106,7 @@
       <active>true</active>
       <protocol>https</protocol>
       <host>${env.PROXY_HOST}</host>
-      <port>${env.PROXY_PORT}</port>
+      <port>3128</port>
     </proxy>
 
   </proxies>
