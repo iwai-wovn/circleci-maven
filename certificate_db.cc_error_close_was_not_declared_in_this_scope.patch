@@ -1,0 +1,10 @@
+--- src/ssl/certificate_db.cc.origin     2020-03-04 06:41:01.989487000 +0000
++++ src/ssl/certificate_db.cc   2020-03-04 06:41:26.286487000 +0000
+@@ -20,5 +20,6 @@
+ #if HAVE_FCNTL_H
+ #include <fcntl.h>
+ #endif
++#include <unistd.h>
+
+ Ssl::FileLocker::FileLocker(std::string const & filename)
+         :    fd(-1)
