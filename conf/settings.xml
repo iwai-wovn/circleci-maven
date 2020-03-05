@@ -105,8 +105,8 @@
     <proxy>
       <active>true</active>
       <protocol>https</protocol>
-      <host>${ENV.PROXY_HOST}</host>
-      <port>${ENV.PROXY_PORT}</port>
+      <host>${env.PROXY_HOST}</host>
+      <port>${env.PROXY_PORT}</port>
     </proxy>
 
   </proxies>
